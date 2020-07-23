@@ -1,32 +1,47 @@
 import React, { Component } from 'react'
-import {Container, Card, Button, NavProps, Navbar} from 'react-bootstrap'
+import {Switch, Route} from 'react-router-dom'
+import {Container, Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NavBar from './components/NavBar'
+import SearchRecipes from './components/SearchRecipes'
+import SavedRecipes from './components/SavedRecipes'
+
+
 
 export default class App extends Component {
-  
+  state = {
+    message: 'Fork it!',
+    redirect: false
+  }
+
+  handleRedirect = () => {
+    this.setState({
+      redirect: !this.state.redirect
+    })
+  }
+
+  componentDidUpdate() {
+    if (this.state.redirect) {
+      this.setState({
+        redirect: false
+      })
+    }
+  }
   
   render() {
     return (
-      <body>
-         
+    <div>
+         <NavBar />
+         <Switch>
+          <Route exact path='/search' component={SearchRecipes} />
+          <Route exact path='/saved' component={SavedRecipes} />
+          {/* <Route component={Error} /> */}
+        </Switch>
+          
 
-        
-          <Container>
-          <Card style={{ width: '18rem' }}>
-  <Card.Img variant="top" src="holder.js/100px180" />
-  <Card.Body>
-    <Card.Title>Card Title</Card.Title>
-    <Card.Text>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </Card.Text>
-    <Button variant="primary">Go somewhere</Button>
-  </Card.Body>
-</Card>
-        </Container>
-
-        <button onclick="myFunction()">Toggle dark mode</button>
-      </body>
+        <Button onclick="myFunction()">Toggle dark mode</Button>
+      
+        </div>
       
     )
   }
